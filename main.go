@@ -48,7 +48,7 @@ func main() {
 	flag.Parse()
 
 	if apiToken == "" || userEmail == "" || jiraUrl == "" || jql == "" || slackChannel == "" || slackToken == "" {
-		fmt.Println("Please provide valid values for api-token, secret, jira-url, and jql or project and queue name.")
+		fmt.Println("Please provide valid values for api-token, secret, jira-url, jql, slack-channel, slack-token")
 		flag.Usage()
 		os.Exit(1)
 	}
@@ -68,13 +68,6 @@ func main() {
 	if err != nil {
 		log.Fatalf("Failed to post message: %v", err)
 	}
-
-	// jsonData, err := json.Marshal(issues)
-	// if err != nil {
-	// 	log.Fatalf("Failed to marshal issues to JSON: %v", err)
-	// }
-
-	// fmt.Println(string(jsonData))
 }
 
 func createJiraClient(apiToken, jiraUrl, jiraEmail string) (*jira.Client, error) {
