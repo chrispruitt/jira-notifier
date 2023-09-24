@@ -38,8 +38,8 @@ func main() {
 	slackMessageTitleEnv := os.Getenv("SLACK_MSG_TITLE")
 
 	// Override with command-line arguments if provided
-	flag.StringVar(&apiToken, "api-token", apiTokenEnv, "Your Jira API token")
-	flag.StringVar(&userEmail, "user", userEmailEnv, "Your Jira secret")
+	flag.StringVar(&apiToken, "api-token", apiTokenEnv, "Jira API token")
+	flag.StringVar(&userEmail, "user", userEmailEnv, "Jira User Email")
 	flag.StringVar(&jql, "jql", jqlEnv, "Jira Query Language (JQL) query")
 	flag.StringVar(&jiraUrl, "jira-url", jiraUrlEnv, "Jira Instance URL")
 	flag.StringVar(&slackToken, "slack-token", slackTokenEnv, "Slack App Token")
@@ -64,9 +64,11 @@ func main() {
 		log.Fatalf("Failed to fetch Jira issues: %v", err)
 	}
 
-	err = postToSlack(issues, slackToken, slackChannel, jiraUrl, jql, slackMessageTitle)
-	if err != nil {
-		log.Fatalf("Failed to post message: %v", err)
+	if len(issues) > 0 {
+		err = postToSlack(issues, slackToken, slackChannel, jiraUrl, jql, slackMessageTitle)
+		if err != nil {
+			log.Fatalf("Failed to post message: %v", err)
+		}
 	}
 }
 
